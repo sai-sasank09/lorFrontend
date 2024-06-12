@@ -16,6 +16,11 @@ const DocumentList = () => {
         fetchDocuments();
     }, []);
 
+
+    // server's link 
+    const server1 = 'http://127.0.0.1:5000'
+    const server2 = 'https://lorbackend.onrender.com'
+
     const fetchDocuments = async () => {
         try {
             setLoading(true);
@@ -26,7 +31,7 @@ const DocumentList = () => {
                 setShowUnauthorizedPage(true);
                 return;
             }
-            const response = await axios.get('http://127.0.0.1:5000/staff/documents', {
+            const response = await axios.get(`${server2}/staff/documents`, {
                 headers: {
                     Authorization: `Bearer ${storedTokenstaff}` // Include the JWT token in the Authorization header
                 }
@@ -102,7 +107,7 @@ const DocumentList = () => {
                         <div className="flex flex-wrap -mx-4">
                             {(searchQuery ? searchResults : documents).map(document => (
                                 <div key={document.file_id} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
-                                    <a href={`http://127.0.0.1:5000/staff/documents/${document.file_id}`} target="_blank" rel="noopener noreferrer" className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                                    <a href={`${server2}/staff/documents/${document.file_id}`} target="_blank" rel="noopener noreferrer" className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
                                         {/* <div className="p-4 hover:bg-gray-100"> */}
                                         <div className="card w-96 bg-base-100 shadow-xl">
                                             <div className="card-body">

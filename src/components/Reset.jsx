@@ -23,10 +23,14 @@ function ResetPasswordPage() {
         setVerificationResult('');
     }, [showOTPInput]);
 
+    // server's link 
+    const server1 = 'http://127.0.0.1:5000'
+    const server2 = 'https://lorbackend.onrender.com'
+
     const handleEmailSubmit = async () => {
         setIsLoading(true)
         try {
-            const response = await axios.post('http://127.0.0.1:5000/check-email-exists', { email });
+            const response = await axios.post(`${server2}/check-email-exists`, { email });
             const { exists } = response.data;
 
             if (exists) {
@@ -48,7 +52,7 @@ function ResetPasswordPage() {
     const handleOTPSubmit = async () => {
         setIsLoading(true)
         try {
-            const response = await axios.post('http://127.0.0.1:5000/verify-otp', { email, otp });
+            const response = await axios.post(`${server2}/verify-otp`, { email, otp });
             const { verified } = response.data;
             if (verified) {
                 toast.success("OTP Verified Successfully")
@@ -70,7 +74,7 @@ function ResetPasswordPage() {
         if (newPassword === confirmPassword) {
             setIsLoading(true)
             try {
-                await axios.post('http://127.0.0.1:5000/update-password', { email, newPassword });
+                await axios.post(`${server2}/update-password`, { email, newPassword });
                 toast.success("Password has changed SuccessFully")
                 setPasswordUpdated(true);
                 <Link to={'/'} />

@@ -17,6 +17,10 @@ const StaffDashboard = () => {
     // const [openDelete, setOpenDelete] = useState(false);
     // const [staffData, setStaffData] = useState(null);
 
+    // server's link 
+    const server1 = 'http://127.0.0.1:5000'
+    const server2 = 'https://lorbackend.onrender.com'
+
     useEffect(() => {
         // Fetch student data from the API endpoint when the component mounts
         fetchStudentData();
@@ -26,7 +30,7 @@ const StaffDashboard = () => {
         try {
             const storedTokenstaff = localStorage.getItem('token_staff');
             console.log("toekrn for staff", storedTokenstaff);
-            const response = await axios.get('http://127.0.0.1:5000/staff/studentCard', {
+            const response = await axios.get(`${server2}/staff/studentCard`, {
                 headers: {
                     Authorization: `Bearer ${storedTokenstaff}` // Include the JWT token in the Authorization header
                 }
@@ -48,7 +52,7 @@ const StaffDashboard = () => {
 
     const updateStudentStatus = async (_id, newStatus) => {
         try {
-            await axios.put(`http://127.0.0.1:5000/students/${_id}`, { status: newStatus });
+            await axios.put(`${server2}/students/${_id}`, { status: newStatus });
             fetchStudentData(); // Refresh student data after successful update
         } catch (error) {
             console.error('Error updating student status:', error);
@@ -58,7 +62,7 @@ const StaffDashboard = () => {
     const updateStudentStatusApproved = async (_id, newStatus) => {
         setIsLoading(true);
         try {
-            await axios.put(`http://127.0.0.1:5000/students/${_id}`, { status: newStatus });
+            await axios.put(`${server2}/students/${_id}`, { status: newStatus });
             fetchStudentData(); // Refresh student data after successful update
             setShowUploadButton(true); // Show the upload button when approved
             setIsLoading(false);
@@ -106,7 +110,7 @@ const StaffDashboard = () => {
         console.log(formData);
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/Dean/upload', formData, {
+            const response = await axios.post(`${server2}/Dean/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -129,7 +133,7 @@ const StaffDashboard = () => {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/dean/delete_document', {
+            const response = await axios.post(`${server2}/dean/delete_document`, {
                 student_id: registerNumber
             });
 
@@ -216,9 +220,9 @@ const StaffDashboard = () => {
                     </td>
                 )}
                 <td className="py-2 px-4 text-center">
-                    <a href={`http://127.0.0.1:5000/documentButton/${student.file_id1}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 1</a>
-                    <a href={`http://127.0.0.1:5000/documentButton/${student.file_id2}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 2</a>
-                    <a href={`http://127.0.0.1:5000/documentButton/${student.file_id3}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 3</a>
+                    <a href={`${server2}/documentButton/${student.file_id1}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 1</a>
+                    <a href={`${server2}/documentButton/${student.file_id2}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 2</a>
+                    <a href={`${server2}/documentButton/${student.file_id3}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 3</a>
 
                 </td>
             </tr>
