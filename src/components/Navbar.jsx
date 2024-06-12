@@ -99,15 +99,15 @@ const Navbar = () => {
             {showMenu && (
                 <div className="lg:hidden flex flex-col items-center bg-[#9e1c3f] text-white">
                     <a className="py-3" href="/login">Home</a>
-                    <a className="py-3" href="/signup">Faculty Login</a>
+                    <a className="py-3" href="/stafflogin">Faculty Login</a>
                     <a className="py-3" href="/login">Student Login</a>
                     <a className="py-3" href="/">About</a>
 
                     {location.pathname === '/staff/studentCard' && (
                         <>
-                            <a className="py-3" href="staff/documents">Documents</a>
-                            <a className="py-3" href="/approvalList">Approval List</a>
-                            <a className="py-3" href="/dashboard">DashBoard</a>
+                            <a className="py-3" href="/staff/documents">Documents</a>
+                            <a className="py-3" href="/staff/filterStudents">Approval List</a>
+                            <a className="py-3" href="/staff/studentCard">DashBoard</a>
                         </>
                     )}
                 </div>
