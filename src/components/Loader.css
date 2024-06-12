@@ -1,0 +1,58 @@
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+}
+
+.loader {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.circle {
+    position: absolute;
+    border: 3px solid transparent;
+    border-top-color:hsl(344, 70%, 36%);
+    border-radius: 50%;
+    animation: rotate linear infinite;
+}
+
+.circle.one {
+    height: 50px;
+    width: 50px;
+    left: 50px;
+    top: 50px;
+    animation-duration: 0.85s;
+}
+
+.circle.two {
+    height: 75px;
+    width: 75px;
+    top: 38px;
+    left: 38px;
+    animation-duration: 0.95s;
+}
+
+.circle.three {
+    height: 100px;
+    width: 100px;
+    top: 25px;
+    left: 25px;
+    animation-duration: 1.05s;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotateZ(360deg);
+    }
+    to {
+        transform: rotateZ(0deg);
+    }
+}
