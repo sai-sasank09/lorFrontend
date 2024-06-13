@@ -20,5 +20,5 @@ const SkeletonLoader = () => {
         </div>
     );
 };
-
+  
 export default SkeletonLoader;

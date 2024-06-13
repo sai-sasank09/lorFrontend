@@ -15,7 +15,7 @@ const Navbar = () => {
     const handleMenuToggle = () => {
         setShowMenu(!showMenu);
     };
-
+ 
     const handleThemeToggle = () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'coffee' ? 'bumblebee' : 'coffee';

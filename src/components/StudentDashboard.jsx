@@ -100,7 +100,7 @@ const WhiteRectangle = () => {
         fetchFile();
     }, [checkTokenAndNavigate, navigate]);
 
-
+ 
     const fetchFile = async () => {
         try {
             const storedToken = localStorage.getItem('token');

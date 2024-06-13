@@ -31,7 +31,7 @@ const StudentDetailsCard = () => {
     useEffect(() => {
         setCurrentPage(1); // Reset the page when the filter changes
     }, [filter]);
-
+ 
     const fetchStudentData = async () => {
         try {
             setIsLoading(true);

@@ -16,6 +16,6 @@ const UnauthorizedPageStaff = () => {
             </Link>
         </div>
     );
-};
+}; 
 
 export default UnauthorizedPageStaff;

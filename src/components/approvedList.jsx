@@ -13,7 +13,7 @@ const ApprovedListPage = () => {
     const server2 = "https://lorbackend.onrender.com"
     // Function to handle form submission
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
         try {
             const response = await axios.get(`${server2}/staff/filterStudents/${year}`); // Assuming your backend API endpoint is /api/data
             setApprovedList(response.data); // Assuming the response from backend contains the approved list for the entered year

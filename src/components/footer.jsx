@@ -16,7 +16,7 @@ const Footer = () => {
                     <FooterLink href="https://www.linkedin.com/in/goutham-samineni-099534251/" icon={Linkedin} text="Linkedin" />
                     <FooterLink href="https://www.instagram.com/goutham_samineni/" icon={Insta} text="Instagram" />
                 </div>
-            </div>
+            </div> 
             <hr className="mx-8 lg:mx-16" />
             <div className="container mx-auto py-2 px-4 text-center text-sm">
                 &copy; {new Date().getFullYear()} School of Computing. All rights reserved.

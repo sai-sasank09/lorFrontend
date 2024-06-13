@@ -73,7 +73,7 @@ const StaffDashboard = () => {
         }
 
     };
-
+ 
     // Define the approveStudent and declineStudent functions here...
     // const approveStudent = (_id) => {
     //     const updatedStudents = students.map(student => {

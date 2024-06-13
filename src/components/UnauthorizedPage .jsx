@@ -19,7 +19,7 @@ const UnauthorizedPage = () => {
                 transition={{ duration: 0.5 }}
                 className="text-3xl font-bold mb-4 text-center text-red-600"
             >
-                401 - Unauthorized Access
+                 401 - Unauthorized Access
             </motion.h1>
             <motion.p
                 initial={{ opacity: 0, y: 50 }}
