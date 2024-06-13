@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import useTokenNavigation from '../middleware/auth';
+// import useTokenNavigation from '../middleware/auth';
 // import Footer from './footer';
 import { jwtDecode } from 'jwt-decode';
 import { FaDownload } from 'react-icons/fa';
@@ -51,7 +51,7 @@ const WhiteRectangle = () => {
     const server2 = 'https://lorbackend.onrender.com'
 
     const navigate = useNavigate();
-    const checkTokenAndNavigate = useTokenNavigation();
+    // const checkTokenAndNavigate = useTokenNavigation();
 
     const fetchFile = useCallback(async () => {
         try {
@@ -82,7 +82,7 @@ const WhiteRectangle = () => {
     }, []);
 
     useEffect(() => {
-        checkTokenAndNavigate();
+        // checkTokenAndNavigate();
 
         const fetchData = async () => {
             setIsLoading(true);
@@ -119,7 +119,7 @@ const WhiteRectangle = () => {
 
         fetchData();
         fetchFile();
-    }, [checkTokenAndNavigate, fetchFile, navigate]);
+    }, [fetchFile, navigate]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
