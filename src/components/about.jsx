@@ -1,26 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Navbar from './Navbar';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
 import Footer from "./footer";
-
 import { useNavigate } from 'react-router-dom';
 
-// import LoadingScreen from './Loader';
-
-
-
-
-
-
 const About = () => {
-
-    // Move the AnimatedInstructionItem component inside the About component
     const AnimatedInstructionItem = ({ number, heading, description, style, animationDirection }) => {
         const [animate, setAnimate] = useState(false);
 
         useEffect(() => {
-            // Trigger animation after component mounts
             setAnimate(true);
         }, []);
 
@@ -32,7 +21,7 @@ const About = () => {
                         {number}
                     </div>
                 </div>
-                <div >
+                <div>
                     <div className="text-lg text-blue-900 font-bold uppercase mt-8" style={{ maxWidth: "290px" }}>{heading}</div>
                     <div className="text-sm mt-1" style={{ maxWidth: "290px", whiteSpace: "pre-wrap" }}>{description}</div>
                 </div>
@@ -41,21 +30,11 @@ const About = () => {
     };
 
     const slides = [
-        {
-            url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80',
-        },
-        {
-            url: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80',
-        },
-        {
-            url: 'https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80',
-        },
-        {
-            url: 'https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2253&q=80',
-        },
-        {
-            url: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2671&q=80',
-        },
+        { url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80' },
+        { url: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80' },
+        { url: 'https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80' },
+        { url: 'https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2253&q=80' },
+        { url: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2671&q=80' },
     ];
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -66,11 +45,11 @@ const About = () => {
         setCurrentIndex(newIndex);
     };
 
-    const nextSlide = () => {
+    const nextSlide = useCallback(() => {
         const isLastSlide = currentIndex === slides.length - 1;
         const newIndex = isLastSlide ? 0 : currentIndex + 1;
         setCurrentIndex(newIndex);
-    };
+    }, [currentIndex, slides.length]);
 
     const goToSlide = (slideIndex) => {
         setCurrentIndex(slideIndex);
@@ -82,15 +61,13 @@ const About = () => {
         }, 4000);
 
         return () => clearInterval(interval);
-    }, [currentIndex, nextSlide]);
+    }, [nextSlide]);
 
-   
     const handleApplyNowClick = () => {
         navigate(`/student/dashboard`);
     };
-    const navigate = useNavigate()
     
-
+    const navigate = useNavigate();
 
     return (
         <>
@@ -101,11 +78,9 @@ const About = () => {
                     style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
                     className='w-full h-full rounded-2xl bg-center bg-cover duration-500'
                 ></div>
-                {/* Left Arrow */}
                 <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
                     <BsChevronCompactLeft onClick={prevSlide} size={30} />
                 </div>
-                {/* Right Arrow */}
                 <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
                     <BsChevronCompactRight onClick={nextSlide} size={30} />
                 </div>
@@ -121,7 +96,6 @@ const About = () => {
                     ))}
                 </div>
             </div>
-            {/* Instructions Section */}
             <div className="mt-10 text-center text-gray-600 mb-20">
                 <div className="bg-green-100 p-4 rounded-lg mb-4 max-w-[1000px] m-auto">
                     <p className="text-lg">Dear Student,</p>
@@ -134,31 +108,30 @@ const About = () => {
                     heading="Faculty Preferences"
                     description="Identify potential recommenders who are familiar with your academic or potential achievements."
                     style={{ marginLeft: "20%" }}
-                    animationDirection="right" // Change animation direction as needed
+                    animationDirection="right"
                 />
                 <AnimatedInstructionItem
                     number="02"
                     heading="Request permission and provide information"
                     description="Contact potential recommenders and share your resume, transcripts, and program details to request their recommendation."
                     style={{ marginLeft: "48%", marginTop: "1px" }}
-                    animationDirection="right" // Change animation direction as needed
+                    animationDirection="right"
                 />
                 <AnimatedInstructionItem
                     number="03"
                     heading="Allow time and follow up"
                     description="Ensure your recommenders have enough time to write a thoughtful recommendation. Politely follow up if necessary, but respect their time and constraints."
                     style={{ marginLeft: "28%", marginTop: "40px" }}
-                    animationDirection="right" // Change animation direction as needed
+                    animationDirection="right"
                 />
                 <AnimatedInstructionItem
                     number="04"
                     heading="Express Gratitude"
                     description="Once you receive the recommendation, promptly thank your recommenders for their support."
                     style={{ marginLeft: "55%", marginTop: "1px" }}
-                    animationDirection="right" // Change animation direction as needed
+                    animationDirection="right"
                 />
             </div>
-
             <div className="flex justify-center items-center h-full">
                 <div>
                     <button onClick={handleApplyNowClick} className="bg-gray-500 text-white font-semibold py-2 px-4 md:mb-8 mb-8 rounded mt-2">Apply Now</button>
