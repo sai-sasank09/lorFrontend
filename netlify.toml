@@ -1,7 +1,6 @@
-
-
-[[plugins]]
-  package = "@netlify/plugin-gatsby"
+[build]
+  command = "npm run build"
+  publish = "build"
 
 [[redirects]]
   from = "/*"
