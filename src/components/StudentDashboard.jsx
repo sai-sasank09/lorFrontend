@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import bgImage from '../assets/loginbg.jpg';
 import Navbar from './Navbar';
 import LoadingScreen from './Loader';
@@ -13,7 +13,6 @@ import { FaDownload } from 'react-icons/fa';
 const steps = ['Personal Information', 'University Details', 'Faculty Preferences', 'Upload Documents'];
 
 const WhiteRectangle = () => {
-    const navigate = useNavigate(); // Initialize useNavigate hook
     const [currentStep, setCurrentStep] = useState(1);
     const [applicationSubmitted, setApplicationSubmitted] = useState(false);
     // const [applicationDetailsOpen, setApplicationDetailsOpen] = useState(false);
@@ -24,7 +23,7 @@ const WhiteRectangle = () => {
     const [registerNo_doc, setRegisterNo_doc] = useState();
     const [isLoading, setIsLoading] = useState();
     const [userName, setUserName] = useState();
-    const checkTokenAndNavigate = useTokenNavigation();
+    
     const [formData, setFormData] = useState({
         name: '',
         registerNumber: '',
@@ -51,57 +50,10 @@ const WhiteRectangle = () => {
     // const server1 = 'http://127.0.0.1:5000'
     const server2 = 'https://lorbackend.onrender.com'
 
-    useEffect(() => {
-        checkTokenAndNavigate();
-        const fetchData = async () => {
-            setIsLoading(true)
-            try {
-                const storedToken = localStorage.getItem('token');
-                console.log(storedToken)
-                if (storedToken) {
-                    setToken(storedToken);
-                    const decodedToken = jwtDecode(storedToken);
-                    console.log("Decoded Token:", decodedToken);
-                    // registerNum = decodedToken.sub.registerNo;
-                    setRegisterNo_doc(decodedToken.sub.registerNo);
-                    setUserName(decodedToken.sub.username);
-                    if (setRegisterNo_doc) {
-                        console.log("Register Number:", decodedToken.sub.registerNo);
-                    } else {
-                        console.log("Register number not found in decoded token.");
-                    }
-                }
-                const res = await axios.post(`${server2}/student/dashboard/getData`, {}, {
-                    headers: {
-                        Authorization: `Bearer ${storedToken}` // Include the JWT token in the Authorization header
-                    }
-                });
-                const data = res.data;
-                console.warn(data);
-                if (data && data.registerNumber) {
-                    setApplicationSubmitted(true);
-                    setShowForm(false);
-                    // setApplicationDetailsOpen(false);
-                    setFormData(data); // set form data if available
-                    console.log(data.status)
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                if (error.response && error.response.status === 401) {
-                    // Redirect to login page if unauthorized
-                    console.log("Navigating to unauthorized page...");
-                    navigate('/unauthorized'); // Use navigate function to redirect
-                }
-            }
-            finally {
-                setIsLoading(false)
-            }
-        }; fetchData();
-        fetchFile();
-    });
+    const navigate = useNavigate();
+    const checkTokenAndNavigate = useTokenNavigation();
 
- 
-    const fetchFile = async () => {
+    const fetchFile = useCallback(async () => {
         try {
             const storedToken = localStorage.getItem('token');
             if (!storedToken) {
@@ -123,23 +75,51 @@ const WhiteRectangle = () => {
             });
 
             const fileData = response.data;
-            // Process the file data as needed
             console.log("File data:", fileData);
-            // setSuccessMessage('File uploaded successfully!');
         } catch (error) {
             console.error("Error fetching file:", error);
         }
-    }
-    // State to store form data to send to the server
+    }, []);
 
+    useEffect(() => {
+        checkTokenAndNavigate();
 
-    // const handleApplyNowClick = () => {
-    //     // setApplicationDetailsOpen(true);
-    // };
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const storedToken = localStorage.getItem('token');
+                if (storedToken) {
+                    setToken(storedToken);
+                    const decodedToken = jwtDecode(storedToken);
+                    setRegisterNo_doc(decodedToken.sub.registerNo);
+                    setUserName(decodedToken.sub.username);
+                }
 
-    // const handleCancelClick = () => {
-    //     // setApplicationDetailsOpen(false);
-    // };
+                const res = await axios.post(`${server2}/student/dashboard/getData`, {}, {
+                    headers: {
+                        Authorization: `Bearer ${storedToken}`
+                    }
+                });
+
+                const data = res.data;
+                if (data && data.registerNumber) {
+                    setApplicationSubmitted(true);
+                    setShowForm(false);
+                    setFormData(data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                if (error.response && error.response.status === 401) {
+                    navigate('/unauthorized');
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+        fetchFile();
+    }, [checkTokenAndNavigate, fetchFile, navigate]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
