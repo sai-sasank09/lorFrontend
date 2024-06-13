@@ -4,13 +4,13 @@ import sistlogologin from '../assets/sistlogologin.png';
 import { FiMenu } from 'react-icons/fi';
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    // const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const [showMenu, setShowMenu] = useState(false);
 
-    const toggleNavbar = () => {
-        setIsOpen(!isOpen);
-    };
+    // const toggleNavbar = () => {
+    //     setIsOpen(!isOpen);
+    // };
 
     const handleMenuToggle = () => {
         setShowMenu(!showMenu);

@@ -11,23 +11,20 @@ import { MdArrowDropDown } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-    const [userType, setUserType] = useState('student');
+    const userType = 'student';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [registerNumber, setRegisterNumber] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [activeForm, setActiveForm] = useState('login');
     const navigate = useNavigate();
-    const [signupDataToSend, setSignupDataToSend] = useState(new FormData());
+    const signupDataToSend= new FormData();
     const [isSubmitting, setIsSubmitting] = useState(false);
     // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     // server's link 
-    const server1 = 'http://127.0.0.1:5000'
+    // const server1 = 'http://127.0.0.1:5000'
     const server2 = 'https://lorbackend.onrender.com'
 
     const [signupData, setSignupData] = useState({
@@ -132,30 +129,30 @@ const Login = () => {
             setIsLoading(false);
         }
     };
-    const handleSignUp = async () => {
-        setIsLoading(true);
-        try {
-            const response = await axios.post(`${server2}/signup`, {
-                name: name,
-                email: email,
-                registerNumber: registerNumber,
-                username: username,
-                password: password
-            });
+    // const handleSignUp = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const response = await axios.post(`${server2}/signup`, {
+    //             name: name,
+    //             email: email,
+    //             registerNumber: registerNumber,
+    //             username: username,
+    //             password: password
+    //         });
 
-            if (response.data.success) {
-                toast.success("Signed up successfully!");
-                setActiveForm('login');
-            } else {
-                toast.error("Signup failed. Please try again.");
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error("An error occurred. Please try again later.");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    //         if (response.data.success) {
+    //             toast.success("Signed up successfully!");
+    //             setActiveForm('login');
+    //         } else {
+    //             toast.error("Signup failed. Please try again.");
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //         toast.error("An error occurred. Please try again later.");
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
     const handleChange = (e) => {
         const { name, value } = e.target;
         setSignupData({

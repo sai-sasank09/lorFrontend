@@ -3,11 +3,10 @@ import Navbar from './Navbar';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
 import Footer from "./footer";
-import axios from 'axios';
-import convertToBase64 from './../helper/convert'
+
 import { useNavigate } from 'react-router-dom';
-import useTokenNavigation from '../middleware/auth';
-import LoadingScreen from './Loader';
+
+// import LoadingScreen from './Loader';
 
 
 
@@ -83,161 +82,14 @@ const About = () => {
         }, 4000);
 
         return () => clearInterval(interval);
-    }, [currentIndex]);
+    }, [currentIndex, nextSlide]);
 
-
-    const [applicationSubmitted, setApplicationSubmitted] = useState(false);
-    const [applicationDetailsOpen, setApplicationDetailsOpen] = useState(false);
-    const [applicationDocumentOpen, setApplicationDocumentOpen] = useState(false);
-    const [error, setError] = useState(null);
-    const [token, setToken] = useState('');
-    const [isLoading, setIsLoading] = useState();
-    const checkTokenAndNavigate = useTokenNavigation();
-    const [formData, setFormData] = useState({
-        name: '',
-        registerNumber: '',
-        department: '',
-        course: '',
-        yearOfGraduation: '',
-        mobileNumber: '',
-        cgpa: '',
-        backlogs: '',
-        appliedCountry: '',
-        appliedUniversity: '',
-        appliedCourse: '',
-        prof1: '',
-        prof2: '',
-        prof3: '',
-        document1: null,
-        document2: null,
-        status: '',
-    });
-
-    useEffect(() => {
-        checkTokenAndNavigate();
-        const fetchData = async () => {
-            setIsLoading(true)
-            try {
-                const storedToken = localStorage.getItem('token');
-                console.log(storedToken)
-                if (storedToken) {
-                    setToken(storedToken);
-                }
-                const res = await axios.post("http://127.0.0.1:5000/student/dashboard/getData", {}, {
-                    headers: {
-                        Authorization: `Bearer ${storedToken}` // Include the JWT token in the Authorization header
-                    }
-                });
-                const data = res.data;
-                console.warn(data);
-                if (data && data.registerNumber) {
-                    setApplicationSubmitted(true);
-                    setApplicationDetailsOpen(false);
-                    setFormData(data); // set form data if available
-                    console.log(data.status)
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-            finally {
-                setIsLoading(false)
-            }
-        };
-        fetchData();
-    }, []);
-
-
-    // State to store form data to send to the server
-    const [formDataToSend, setFormDataToSend] = useState(new FormData());
-
+   
     const handleApplyNowClick = () => {
         navigate(`/student/dashboard`);
     };
     const navigate = useNavigate()
-    const handleCancelClick = () => {
-        setApplicationDetailsOpen(false);
-    };
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true)
-        try {
-
-
-            // Make a POST request to send form data to the server
-            formDataToSend.append('status', 'pending'); // Ensure status is sent with form data
-            console.log(formDataToSend)
-            const response = await axios.post('http://127.0.0.1:5000/student/dashboard', formDataToSend, {
-                headers: {
-                    Authorization: `Bearer ${token}` // Include the JWT token in the Authorization header
-                }
-            });
-            console.warn(response.data); // Log the response from the server
-            setApplicationSubmitted(true);
-            setApplicationDetailsOpen(false);
-            if (response.status === 200) {
-                // Handle successful submission
-                // Close the form
-            } else {
-                // Handle other status codes if needed
-                console.error('Unexpected status code:', response.status);
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            // Handle error
-        }
-        finally {
-            setIsLoading(false)
-        }
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-
-        // Update formDataToSend directly
-        formDataToSend.set(name, value);
-    };
-    const handleFileChange = async e => {
-        const name = e.target.name; // Get the name of the input element
-        const base64 = await convertToBase64(e.target.files[0]);
-        setFormData({
-            ...formData,
-            [name]: base64, // Set the base64 data to the corresponding property in formData
-        });
-        formDataToSend.set(name, base64);
-    };
-
-    const handleDeleteApplicationClick = async () => {
-        setIsLoading(true)
-        try {
-            // Assuming you have the registerNumber stored in the form data
-            const register_Number = formData.registerNumber; // Retrieve register number from form data
-
-            // Send a DELETE request to the server
-            const response = await axios.delete('http://127.0.0.1:5000/student/dashboard/delete', {
-                data: { registerNumber: register_Number } // Sending the register number to identify the application
-            });
-
-            console.log(response.data);
-            setApplicationSubmitted(false);
-            setApplicationDetailsOpen(false);
-
-        } catch (error) {
-            console.error('Error deleting application:', error);
-            // Handle error
-        }
-        finally {
-            setIsLoading(false)
-        }
-    };
-
-    const handleViewDocumentClick = () => {
-        setApplicationDocumentOpen(true); // Open application details to view documents
-    };
+    
 
 
     return (

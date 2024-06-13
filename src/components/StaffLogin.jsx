@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import Footer from './footer';
 import '../App.css';
 import LoadingScreen from './Loader';
 const StaffLogin = () => {
-    const [userType, setUserType] = useState('staff');
+    const userType = 'staff';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState();
@@ -22,12 +22,12 @@ const StaffLogin = () => {
 
 
     // server's link 
-    const server1 = 'http://127.0.0.1:5000'
+    // const server1 = 'http://127.0.0.1:5000'
     const server2 = 'https://lorbackend.onrender.com'
 
-    const handleUserTypeChange = (e) => {
-        setUserType(e.target.value);
-    };
+    // const handleUserTypeChange = (e) => {
+    //     setUserType(e.target.value);
+    // };
 
     const handleSubmit = async () => {
         setIsLoading(true);

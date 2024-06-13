@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast'
 import toast from 'react-hot-toast'
 
 const SignUpForm = () => {
-    const [signupDataToSend, setSignupDataToSend] = useState(new FormData());
+    const signupDataToSend = new FormData();
     const [isSubmitting, setIsSubmitting] = useState(false);
     // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [signupData, setSignupData] = useState({
@@ -25,7 +25,7 @@ const SignUpForm = () => {
     });
 
     // server's link 
-    const server1 = 'http://127.0.0.1:5000'
+    // const server1 = 'http://127.0.0.1:5000'
     const server2 = 'https://lorbackend.onrender.com'
 
     const handleSubmit = async (event) => {

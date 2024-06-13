@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import useTokenNavigation from '../middleware/auth';
-import Footer from './footer';
+// import Footer from './footer';
 import { jwtDecode } from 'jwt-decode';
 import { FaDownload } from 'react-icons/fa';
 const steps = ['Personal Information', 'University Details', 'Faculty Preferences', 'Upload Documents'];
@@ -16,11 +16,11 @@ const WhiteRectangle = () => {
     const navigate = useNavigate(); // Initialize useNavigate hook
     const [currentStep, setCurrentStep] = useState(1);
     const [applicationSubmitted, setApplicationSubmitted] = useState(false);
-    const [applicationDetailsOpen, setApplicationDetailsOpen] = useState(false);
-    const [applicationDocumentOpen, setApplicationDocumentOpen] = useState(false);
-    const [error, setError] = useState(null);
+    // const [applicationDetailsOpen, setApplicationDetailsOpen] = useState(false);
+    // const [applicationDocumentOpen, setApplicationDocumentOpen] = useState(false);
+    // const [error, setError] = useState(null);
     const [token, setToken] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    // const [successMessage, setSuccessMessage] = useState('');
     const [registerNo_doc, setRegisterNo_doc] = useState();
     const [isLoading, setIsLoading] = useState();
     const [userName, setUserName] = useState();
@@ -44,11 +44,11 @@ const WhiteRectangle = () => {
         document2: null,
         status: '',
     });
-    const [formDataToSend, setFormDataToSend] = useState(new FormData());
+    const formDataToSend = new FormData();
     const [showForm, setShowForm] = useState(true); // State to toggle between form and application details
 
     // server's link 
-    const server1 = 'http://127.0.0.1:5000'
+    // const server1 = 'http://127.0.0.1:5000'
     const server2 = 'https://lorbackend.onrender.com'
 
     useEffect(() => {
@@ -81,7 +81,7 @@ const WhiteRectangle = () => {
                 if (data && data.registerNumber) {
                     setApplicationSubmitted(true);
                     setShowForm(false);
-                    setApplicationDetailsOpen(false);
+                    // setApplicationDetailsOpen(false);
                     setFormData(data); // set form data if available
                     console.log(data.status)
                 }
@@ -98,7 +98,7 @@ const WhiteRectangle = () => {
             }
         }; fetchData();
         fetchFile();
-    }, [navigate]);
+    }, []);
 
 
     const fetchFile = async () => {
@@ -125,7 +125,7 @@ const WhiteRectangle = () => {
             const fileData = response.data;
             // Process the file data as needed
             console.log("File data:", fileData);
-            setSuccessMessage('File uploaded successfully!');
+            // setSuccessMessage('File uploaded successfully!');
         } catch (error) {
             console.error("Error fetching file:", error);
         }
@@ -133,13 +133,13 @@ const WhiteRectangle = () => {
     // State to store form data to send to the server
 
 
-    const handleApplyNowClick = () => {
-        setApplicationDetailsOpen(true);
-    };
+    // const handleApplyNowClick = () => {
+    //     // setApplicationDetailsOpen(true);
+    // };
 
-    const handleCancelClick = () => {
-        setApplicationDetailsOpen(false);
-    };
+    // const handleCancelClick = () => {
+    //     // setApplicationDetailsOpen(false);
+    // };
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -163,7 +163,7 @@ const WhiteRectangle = () => {
             // handleUpload();
             console.warn(response.data); // Log the response from the server
             setApplicationSubmitted(true);
-            setApplicationDetailsOpen(false);
+            // setApplicationDetailsOpen(false);
 
             if (response.status === 200) {
                 // Handle successful submission
@@ -214,7 +214,7 @@ const WhiteRectangle = () => {
             }
             setApplicationSubmitted(false);
             window.location.reload();
-            setApplicationDetailsOpen(false);
+            // setApplicationDetailsOpen(false);
 
 
         } catch (error) {
@@ -257,14 +257,14 @@ const WhiteRectangle = () => {
         }
     };
 
-    const handleViewDocumentClick = () => {
-        setApplicationDocumentOpen(true); // Open application details to view documents
-    };
+    // const handleViewDocumentClick = () => {
+    //     setApplicationDocumentOpen(true); // Open application details to view documents
+    // };
     const handleFileChange = async (event, count) => {
         const selectedFile = event.target.files[0];
         setIsLoading(true);
         if (!selectedFile) {
-            setSuccessMessage('Please select a file to upload.');
+            // setSuccessMessage('Please select a file to upload.');
             return;
         }
 
@@ -280,9 +280,9 @@ const WhiteRectangle = () => {
                 }
             });
             console.log(response.message);
-            setSuccessMessage(`File ${count} uploaded successfully!`);
+            // setSuccessMessage(`File ${count} uploaded successfully!`);
         } catch (error) {
-            setSuccessMessage(`Error uploading file ${count}.`);
+            // setSuccessMessage(`Error uploading file ${count}.`);
         } finally {
             setIsLoading(false);
         }
@@ -328,11 +328,11 @@ const WhiteRectangle = () => {
         setCurrentStep(currentStep - 1);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission
-        console.log('Form submitted:', formData);
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     // Handle form submission
+    //     console.log('Form submitted:', formData);
+    // };
     return (
         <>
             {isLoading && <LoadingScreen />}
