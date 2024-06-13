@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "prebuild": "rimraf build",
+
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "daisyui": "^4.9.0",
-    "del-cli": "^5.1.0",
-    "rimraf": "^5.0.7"
+    "del-cli": "^5.1.0"
+    
   }
 }
