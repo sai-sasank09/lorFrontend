@@ -98,7 +98,7 @@ const WhiteRectangle = () => {
             }
         }; fetchData();
         fetchFile();
-    }, [checkTokenAndNavigate, navigate]);
+    });
 
  
     const fetchFile = async () => {
