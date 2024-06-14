@@ -39,19 +39,28 @@ const WhiteRectangle = () => {
         prof1: '',
         prof2: '',
         prof3: '',
-        document1: null,
-        document2: null,
-        status: '',
     });
-    const formDataToSend = new FormData();
+    const [formDataToSend, setFormDataToSend] = useState(new FormData());
     const [showForm, setShowForm] = useState(true); // State to toggle between form and application details
 
     // server's link 
-    // const server1 = 'http://127.0.0.1:5000'
+    const server1 = 'http://127.0.0.1:5000'
     const server2 = 'https://lorbackend.onrender.com'
 
     const navigate = useNavigate();
     // const checkTokenAndNavigate = useTokenNavigation();
+
+    useEffect(() => {
+        const updatedFormDataToSend = new FormData();
+        for (const key in formData) {
+            if (formData.hasOwnProperty(key)) {
+                updatedFormDataToSend.append(key, formData[key]);
+            }
+        }
+        setFormDataToSend(updatedFormDataToSend);
+    }, [formData]);
+
+
 
     const fetchFile = useCallback(async () => {
         try {
@@ -131,10 +140,17 @@ const WhiteRectangle = () => {
                 return
             }
             // Make a POST request to send form data to the server
-            formDataToSend.append('status', 'pending'); // Ensure status is sent with form data
-            console.log(formDataToSend)
+            console.log("Before appending status:", formDataToSend);
+        
 
-            const response = await axios.post(`${server2}/student/dashboard`, formDataToSend, {
+        // Append status field to existing formDataToSend
+        formDataToSend.append('status', 'pending');
+        console.log("FormData before POST:");
+            for (let pair of formDataToSend.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
+
+            const response = await axios.post(`${server1}/student/dashboard`, formDataToSend, {
                 headers: {
                     Authorization: `Bearer ${token}` // Include the JWT token in the Authorization header
                 }
@@ -168,9 +184,6 @@ const WhiteRectangle = () => {
             ...formData,
             [name]: value,
         });
-
-        // Update formDataToSend directly
-        formDataToSend.set(name, value);
     };
 
 
@@ -237,9 +250,6 @@ const WhiteRectangle = () => {
         }
     };
 
-    // const handleViewDocumentClick = () => {
-    //     setApplicationDocumentOpen(true); // Open application details to view documents
-    // };
     const handleFileChange = async (event, count) => {
         const selectedFile = event.target.files[0];
         setIsLoading(true);
@@ -465,20 +475,24 @@ const WhiteRectangle = () => {
 
 
                                             <div className="flex md:flex-row justify-center items-center md:justify-around flex-col">
-                                                <div className="">
-                                                    <div><label htmlFor="yearofGraduation" className="block mb-1 font-mono text-blue-900 font-medium">Year of Graduation:</label>
-                                                        <input
-                                                            type="text"
-                                                            id="yearofGraduation"
-                                                            name="yearofGraduation"
-                                                            value={formData.yearofGraduation}
-                                                            onChange={handleChange}
-                                                            placeholder="Year of Graduation"
-                                                            className="border border-gray-300 rounded px-2 py-1 mb-2 w-full"
-                                                            style={{ maxWidth: '200px', height: '40px', minHeight: '40px', resize: 'none' }}
-                                                        />
-                                                    </div>
+                                            <div className="">
+                                                <div>
+                                                    <label htmlFor="yearOfGraduation" className="block mb-1 font-mono text-blue-900 font-medium">
+                                                        Year of Graduation:
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="yearOfGraduation"
+                                                        name="yearOfGraduation"
+                                                        value={formData.yearOfGraduation || ''}  // Ensure value is not undefined
+                                                        onChange={handleChange}
+                                                        placeholder="Year of Graduation"
+                                                        className="border border-gray-300 rounded px-2 py-1 mb-2 w-full"
+                                                        style={{ maxWidth: '200px', height: '40px', minHeight: '40px', resize: 'none' }}
+                                                    />
                                                 </div>
+                                            </div>
+
                                                 <div className="">
                                                     <div><label htmlFor="mobileNumber" className="block mb-1 font-mono font-medium text-blue-900">Mobile Number:</label>
                                                         <input

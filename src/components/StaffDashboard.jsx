@@ -73,27 +73,6 @@ const StaffDashboard = () => {
         }
 
     };
- 
-    // Define the approveStudent and declineStudent functions here...
-    // const approveStudent = (_id) => {
-    //     const updatedStudents = students.map(student => {
-    //         if (student._id === _id) {
-    //             return { ...student, status: 'approved' };
-    //         }
-    //         return student;
-    //     });
-    //     setStudents(updatedStudents);
-    // };
-
-    // const declineStudent = (_id) => {
-    //     const updatedStudents = students.map(student => {
-    //         if (student._id === _id) {
-    //             return { ...student, status: 'declined' };
-    //         }
-    //         return student;
-    //     });
-    //     setStudents(updatedStudents);
-    // };
 
     // file uploading 
     const handleFileChange = async (event, registerNumber, count) => {
