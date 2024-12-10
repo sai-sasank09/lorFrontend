@@ -13,13 +13,14 @@ const StaffDashboard = () => {
     // const [file, setFile] = useState(null);
     const [openDeleteMap, setOpenDeleteMap] = useState({});
     const [showUnauthorizedPage, setShowUnauthorizedPage] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
     // const [openDelete, setOpenDelete] = useState(false);
     // const [staffData, setStaffData] = useState(null);
 
     // server's link 
-    // const server1 = 'http://127.0.0.1:5000'
-    const server2 = 'https://lorbackend.onrender.com'
+    const server2 = 'http://127.0.0.1:5000'
+    // const server2 = 'https://lorbackend.onrender.com'
 
     useEffect(() => {
         // Fetch student data from the API endpoint when the component mounts
@@ -130,30 +131,28 @@ const StaffDashboard = () => {
     };
     const renderRows = () => {
         let filteredStudents = students;
-
+    
         if (filter !== 'All') {
             filteredStudents = students.filter(student => student.status === filter);
         }
-
+    
         if (filter === 'InProgress') {
             filteredStudents = students.filter(student => student.status !== 'approved' && student.status !== 'declined');
         }
-
+    
         return filteredStudents.map(student => (
             <tr key={student._id} className="border-b border-gray-200 hover:bg-gray-100">
-                <td className="py-2 px-4 text-center">{student.name}</td>
-                <td className="py-2 px-4 text-center">{student.department}</td>
-                <td className={`py-2 px-4 text-center ${getStatusColor(student.status)}`}>{student.status}</td>
-                <td className="py-2 px-4 text-center">{student.yearOfGraduation}</td>
-                <td className="py-2 px-4 text-center">{student.cgpa}</td>
-                <td className="py-2 px-4 text-center">{student.backlogs}</td>
-                <td className='py-2 px-4 textcenter'>{student.registerNumber}</td>
-                {/* <td className='py-2 px-4 textcenter'>{student.fileId}</td> */}
+                <td className="py-2 px-4 text-center border border-gray-300">{student.name}</td>
+                <td className="py-2 px-4 text-center border border-gray-300">{student.department}</td>
+                <td className={`py-2 px-4 text-center border border-gray-300 ${getStatusColor(student.status)}`}>{student.status}</td>
+                <td className="py-2 px-4 text-center border border-gray-300">{student.yearofGraduation}</td>
+                <td className="py-2 px-4 text-center border border-gray-300">{student.cgpa}</td>
+                <td className="py-2 px-4 text-center border border-gray-300">{student.backlogs}</td>
+                <td className="py-2 px-4 text-center border border-gray-300">{student.registerNumber}</td>
                 {(filter === 'All' || filter === 'InProgress') && (
-                    <td className="py-2 px-4">
+                    <td className="py-2 px-4 border border-gray-300">
                         {student.status === 'pending' && (
                             <>
-                                {/* TODO: when the approve button cliks the student name and year of approva should be stored in database */}
                                 <button onClick={() => updateStudentStatusApproved(student._id, 'approved')} className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded mr-2">Approve</button>
                                 <button onClick={() => updateStudentStatus(student._id, 'declined')} className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded">Decline</button>
                             </>
@@ -171,6 +170,7 @@ const StaffDashboard = () => {
                                                 name="file_id1"
                                                 accept=".pdf,.doc,.docx,.txt"
                                                 onChange={(event) => handleFileChange(event, student.registerNumber, 1)}
+                                                className="py-1 px-2 border border-gray-300 rounded"
                                             />
                                         </div>
                                         <div className="mb-4">
@@ -180,6 +180,7 @@ const StaffDashboard = () => {
                                                 name="file_id2"
                                                 accept=".pdf,.doc,.docx,.txt"
                                                 onChange={(event) => handleFileChange(event, student.registerNumber, 2)}
+                                                className="py-1 px-2 border border-gray-300 rounded"
                                             />
                                         </div>
                                         <div className="mb-4">
@@ -189,21 +190,20 @@ const StaffDashboard = () => {
                                                 name="file_id3"
                                                 accept=".pdf,.doc,.docx,.txt"
                                                 onChange={(event) => handleFileChange(event, student.registerNumber, 3)}
+                                                className="py-1 px-2 border border-gray-300 rounded"
                                             />
                                         </div>
-
+                                        
                                     </>
                                 )}
                             </>
                         )}
-
                     </td>
                 )}
-                <td className="py-2 px-4 text-center">
-                    <a href={`${server2}/documentButton/${student.file_id1}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 1</a>
-                    <a href={`${server2}/documentButton/${student.file_id2}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 2</a>
-                    <a href={`${server2}/documentButton/${student.file_id3}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 3</a>
-
+                <td className="py-2 px-4 text-center border border-gray-300">
+                    <a href={`${server2}/documentButton/${student.file_id1}`} className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 1</a>
+                    <a href={`${server2}/documentButton/${student.file_id2}`} className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 2</a>
+                    <a href={`${server2}/documentButton/${student.file_id3}`} className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 rounded inline-block transition duration-300 ease-in-out">Document 3</a>
                 </td>
             </tr>
         ));
@@ -235,26 +235,52 @@ const StaffDashboard = () => {
                     <button onClick={() => handleFilterChange('InProgress')} className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">In Progress</button>
                     <button onClick={() => handleFilterChange('declined')} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Declined</button>
                 </div>
-                <div className="max-w-screen-lg mx-auto overflow-x-auto">
-                    <table className="w-full table-auto">
-                        <thead>
-                            <tr>
-                                <th className="py-2 px-4 bg-gray-200">Name</th>
-                                <th className="py-2 px-4 bg-gray-200">Department</th>
-                                <th className="py-2 px-4 bg-gray-200">Status</th>
-                                <th className="py-2 px-4 bg-gray-200">Year</th>
-                                <th className="py-2 px-4 bg-gray-200">CGPA</th>
-                                <th className="py-2 px-4 bg-gray-200">Backlogs</th>
-                                <th className="py-2 px-4 bg-gray-200">Register No</th>
-                                {(filter === 'All' || filter === 'InProgress') && <th className="py-2 px-4 bg-gray-200">Actions</th>}
-                                <th className="py-2 px-4 bg-gray-200">Documents</th> {/* New table head */}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {renderRows()}
-                        </tbody>
-                    </table>
-                </div>
+                <div className="join flex justify-end mb-4">
+                            <input
+                                className="input input-bordered join-item"
+                                type="text"
+                                placeholder="Search documents or Register Number"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <select
+                                className="select select-bordered join-item"
+                                onChange={(e) => handleFilterChange(e.target.value)}
+                            >
+                                <option disabled selected>Filter</option>
+                                <option value="All">All</option>
+                                <option value="approved">Approved</option>
+                                <option value="InProgress">In Progress</option>
+                                <option value="declined">Declined</option>
+                            </select>
+                            <button
+                                className="btn join-item"
+                                onClick={() => console.log("Search")}
+                            >
+                                Search
+                            </button>
+                        </div>
+                        <div className="max-w-screen-lg mx-auto overflow-x-auto">
+    <table className="w-full table-auto border-collapse border border-gray-300">
+        <thead>
+            <tr>
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">Name</th>
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">Department</th>
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">Status</th>
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">Year</th>
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">CGPA</th>
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">Backlogs</th>
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">Register No</th>
+                {(filter === 'All' || filter === 'InProgress') && <th className="py-2 px-4 bg-gray-200 border border-gray-300">Actions</th>}
+                <th className="py-2 px-4 bg-gray-200 border border-gray-300">Documents</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {renderRows()}
+        </tbody>
+    </table>
+</div>
             </div>
         </>
     );

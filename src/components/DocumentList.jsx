@@ -18,8 +18,8 @@ const DocumentList = () => {
 
 
     // server's link 
-    // const server1 = 'http://127.0.0.1:5000'
-    const server2 = 'https://lorbackend.onrender.com'
+    const server2 = 'http://127.0.0.1:5000'
+    // const server2 = 'https://lorbackend.onrender.com'
 
     const fetchDocuments = async () => {
         try {
