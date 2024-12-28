@@ -15,6 +15,7 @@ import StudentDetailsCard from './components/StudentDetailsCard';
 import About from './components/about';
 import ApprovedListPage from './components/approvedList';
 import UnauthorizedPage from './components/UnauthorizedPage ';
+import YesNoPage from './uploads/YesNoPage';
 const App = () => {
   return (
     <Router>
@@ -31,6 +32,9 @@ const App = () => {
         <Route path='/staff/dashboard' element={<StaffDashboard />} />
         {/* file upload route */}
         <Route path='/staff/upload' element={<FileUploadPage />} />
+        {/* file upload route */}
+        <Route path='/staff/studentRegno' element={<YesNoPage/>} />
+
         <Route path='/staff/documents' element={<DocumentList />} />
         {/* reset password */}
         <Route path='/ResetPassword' element={<ResetPasswordPage />} />

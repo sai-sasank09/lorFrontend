@@ -44,8 +44,8 @@ const WhiteRectangle = () => {
     const [showForm, setShowForm] = useState(true); // State to toggle between form and application details
 
     // server's link 
-    const server1 = 'http://127.0.0.1:5000'
-    const server2 = 'https://lorbackend.onrender.com'
+    const server2 = 'http://127.0.0.1:5000'
+    const server1 = 'https://lorbackend.onrender.com'
 
     const navigate = useNavigate();
     // const checkTokenAndNavigate = useTokenNavigation();
@@ -150,7 +150,7 @@ const WhiteRectangle = () => {
                 console.log(pair[0] + ', ' + pair[1]);
             }
 
-            const response = await axios.post(`${server1}/student/dashboard`, formDataToSend, {
+            const response = await axios.post(`${server2}/student/dashboard`, formDataToSend, {
                 headers: {
                     Authorization: `Bearer ${token}` // Include the JWT token in the Authorization header
                 }
@@ -277,7 +277,72 @@ const WhiteRectangle = () => {
             setIsLoading(false);
         }
     };
-
+    
+    const handleDownload = async (fileId) => {
+        const url = `${server2}/studentUploadedDocument/file_id${fileId}`;
+        const storedToken = localStorage.getItem('token');
+    
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${storedToken}`, // Include the JWT token in the Authorization header
+                },
+            });
+    
+            if (response.ok) {
+                const fileUrl = await response.text(); // Assuming the response is the file URL
+                console.log(fileUrl);
+                if (fileUrl.includes('drive.google.com')) {
+                    const fileWithEdit = `${fileUrl}/edit`;
+                    // window.location.href = fileWithEdit; // Open the file in the same tab
+                    window.open(fileWithEdit, '_blank');
+                } else {
+                    // If it's not a Google Drive link, just open it
+                    window.location.href = fileUrl;
+                }
+            } else {
+                console.error('Failed to download the file');
+            }
+        } catch (error) {
+            console.error('Error during file download:', error);
+        }
+    };
+    
+    const handleViewDeanFile = async (fileId) => {
+        const url = `${server2}/studentdocumentButton/DeanfileId${fileId}`; // fileId should be a key, not a full URL
+        const storedToken = localStorage.getItem('token');
+        console.log('from from end',fileId);
+        
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${storedToken}`, // Include the JWT token in the Authorization header
+                },
+            });
+    
+            if (response.ok) {
+                const fileUrl = await response.text();
+                console.log('Dean File URL:', fileUrl);
+    
+                if (fileUrl.includes('drive.google.com')) {
+                    const fileWithEdit = `${fileUrl}/edit`;
+                    window.open(fileWithEdit, '_blank');
+                } else {
+                    window.open(fileUrl, '_blank');
+                }
+            } else {
+                const errorMessage = await response.json();
+                console.error('Failed to retrieve the dean file:', errorMessage);
+                alert(`Error: ${errorMessage.error || 'Failed to retrieve the file'}`);
+            }
+        } catch (error) {
+            console.error('Error during dean file retrieval:', error);
+            alert('An unexpected error occurred while retrieving the file.');
+        }
+    };
+    
 
     const StepIndicator = ({ currentStep }) => {
         return (
@@ -749,16 +814,6 @@ const WhiteRectangle = () => {
                                 <p><strong>Professor 3:</strong> {formData.prof3}</p>
                             </div>
 
-                            {/* View Documents button */}
-                            {/* <div className="mt-4">
-                            <button
-                                onClick={handleViewDocumentClick}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-200 ease-in-out"
-                            >
-                                View Documents
-                            </button>
-                        </div> */}
-
 
 
                             {/* Delete Application button */}
@@ -779,35 +834,36 @@ const WhiteRectangle = () => {
                             <>
                                 <span className='text-xl font-semibold mb-2'>Uploaded Files</span>
                                 <div className="mt-4">
-                                    <a
-                                        href={`${server2}/studentUploadedDocument/${formData.file_id1}`}
-                                        className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
-                                    >
-                                        <FaDownload className="mr-2" /> Uploaded Document
-                                    </a>
-                                </div>
+                                <button
+                                    onClick={() => handleDownload(1)}
+                                    className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
+                                >
+                                    <FaDownload className="mr-2" /> Uploaded Document 1
+                                </button>
+                            </div>
+
                             </>
                         )}
 
                         {formData.file_id2 && (
                             <div className="mt-4">
-                                <a
-                                    href={`${server2}/studentUploadedDocument/${formData.file_id2}`}
+                            <button
+                                    onClick={() => handleDownload(2)}
                                     className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
                                 >
-                                    <FaDownload className="mr-2" /> Uploaded Document
-                                </a>
+                                    <FaDownload className="mr-2" /> Uploaded Document 2
+                                </button>
                             </div>
                         )}
 
                         {formData.file_id3 && (
                             <div className="mt-4">
-                                <a
-                                    href={`${server2}/studentUploadedDocument/${formData.file_id3}`}
-                                    className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
-                                >
-                                    <FaDownload className="mr-2" /> Uploaded Document
-                                </a>
+                            <button
+                                onClick={() => handleDownload(1)}
+                                className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
+                            >
+                                <FaDownload className="mr-2" /> Uploaded Document 3
+                            </button>
                             </div>
                         )}
 
@@ -815,35 +871,35 @@ const WhiteRectangle = () => {
                             <>
                                 <span className='text-xl font-semibold mt-6 mb-2'>LOR's</span>
                                 <div className="mt-4">
-                                    <a
-                                        href={`${server2}/studentdocumentButton/${formData.DeanfileId1}`}
-                                        className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
-                                    >
-                                        <FaDownload className="mr-2" /> Download Document
-                                    </a>
+                                <button
+                                    onClick={() => handleViewDeanFile(1)} // Pass the Dean File ID
+                                    className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
+                                >
+                                    <FaDownload className="mr-2" /> View Document
+                                </button>
                                 </div>
                             </>
                         )}
 
                         {formData.DeanfileId2 && (
                             <div className="mt-4">
-                                <a
-                                    href={`${server2}/studentdocumentButton/${formData.DeanfileId2}`}
-                                    className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
-                                >
-                                    <FaDownload className="mr-2" /> Download Document
-                                </a>
+                            <button
+                                onClick={() => handleViewDeanFile(2)} // Pass the Dean File ID
+                                className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
+                            >
+                                <FaDownload className="mr-2" /> View Document
+                            </button>
                             </div>
                         )}
 
                         {formData.DeanfileId3 && (
                             <div className="mt-4">
-                                <a
-                                    href={`${server2}/studentdocumentButton/${formData.DeanfileId3}`}
-                                    className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
-                                >
-                                    <FaDownload className="mr-2" /> Download Document
-                                </a>
+                            <button
+                                onClick={() => handleViewDeanFile(3)} // Pass the Dean File ID
+                                className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded flex items-center transition duration-300"
+                            >
+                                <FaDownload className="mr-2" /> View Document
+                            </button>
                             </div>
                         )}
                     </div>

@@ -94,6 +94,20 @@ const StudentDetailsCard = () => {
         setFilter(newFilter);
     };
 
+    
+    function generateDocumentLink(server, registerNumber, fileId, label) {
+        return (
+            <a
+                href={`${server}/documentButton/${registerNumber}/${fileId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 mx-2 rounded inline-block transition duration-300 ease-in-out"
+            >
+                {label}
+            </a>
+        );
+    }
+    
 
 
     const renderPageNumbers = () => {
@@ -356,9 +370,12 @@ const StudentDetailsCard = () => {
                                     <p><strong>Professor 2:</strong> {selectedStudent.prof2}</p>
                                     <p><strong>Professor 3:</strong> {selectedStudent.prof3}</p>
                                     <strong className='font-bold'>Documents List: </strong>
-                                    <a href={`${server2}/documentButton/${selectedStudent.file_id1}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 mx-2 rounded inline-block transition duration-300 ease-in-out">Document 1</a>
-                                    <a href={`${server2}/documentButton/${selectedStudent.file_id2}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 mx-2 rounded inline-block transition duration-300 ease-in-out">Document 2</a>
-                                    <a href={`${server2}/documentButton/${selectedStudent.file_id3}`} class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 my-2 mx-2 rounded inline-block transition duration-300 ease-in-out">Document 3</a>
+                                    <div>
+                                        {generateDocumentLink(server2, selectedStudent.registerNumber, 'file_id1', 'Document 1')}
+                                        {generateDocumentLink(server2, selectedStudent.registerNumber, 'file_id2', 'Document 2')}
+                                        {generateDocumentLink(server2, selectedStudent.registerNumber, 'file_id3', 'Document 3')}
+                                    </div>
+
                                     {selectedStudent.status === 'pending' && (
                                         <div className="flex justify-end mt-4">
                                             <button onClick={() => updateStudentStatusApproved(selectedStudent._id, 'approved')} className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded mr-2">Approve</button>

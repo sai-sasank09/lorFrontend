@@ -105,25 +105,26 @@ const DocumentList = () => {
                         </div>
                         <h2 className="text-2xl font-bold mb-4">Uploaded Documents</h2>
                         <div className="flex flex-wrap -mx-4">
-                            {(searchQuery ? searchResults : documents).map(document => (
-                                <div key={document.file_id} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
-                                    <a href={`${server2}/staff/documents/${document.file_id}`} target="_blank" rel="noopener noreferrer" className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                                        {/* <div className="p-4 hover:bg-gray-100"> */}
-                                        <div className="card w-96 bg-base-100 shadow-xl">
-                                            <div className="card-body">
-                                                <h2 className="card-title">{document.filename}</h2>
-                                                <p>Register Number: {document.registerNumber}</p>
-                                                <p className="text-gray-600 text-sm">{new Date(document.upload_date).toLocaleDateString()}</p>
-                                                <p className="text-gray-600 text-sm mt-2">{document.content_type}</p>
-                                                <div className="card-actions">
-                                                    <button className="btn btn-primary">Dowload</button>
-                                                </div>
+                        {(searchQuery ? searchResults : documents).map((document) => (
+                            <div key={document.file_id} className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
+                                <a
+                                    href={document.formatted_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
+                                >
+                                    <div className="card w-96 bg-base-100 shadow-xl">
+                                        <div className="card-body">
+                                            <h2 className="card-title">{document.filename}</h2>
+                                            <p>Register Number: {document.registerNumber}</p>
+                                            <div className="card-actions">
+                                                <button className="btn btn-primary">Open File</button>
                                             </div>
                                         </div>
-                                        {/* </div> */}
-                                    </a>
-                                </div>
-                            ))}
+                                    </div>
+                                </a>
+                            </div>
+                        ))}
                         </div>
                     </div>
                     {/* <Footer /> */}
