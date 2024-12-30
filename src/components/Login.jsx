@@ -129,30 +129,30 @@ const Login = () => {
             setIsLoading(false);
         }
     };
-    // const handleSignUp = async () => {
-    //     setIsLoading(true);
-    //     try {
-    //         const response = await axios.post(`${server2}/signup`, {
-    //             name: name,
-    //             email: email,
-    //             registerNumber: registerNumber,
-    //             username: username,
-    //             password: password
-    //         });
+    const handleSignUp = async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(`${server2}/signup`, {
+                name: name,
+                email: email,
+                registerNumber: registerNumber,
+                username: username,
+                password: password
+            });
 
-    //         if (response.data.success) {
-    //             toast.success("Signed up successfully!");
-    //             setActiveForm('login');
-    //         } else {
-    //             toast.error("Signup failed. Please try again.");
-    //         }
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //         toast.error("An error occurred. Please try again later.");
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
+            if (response.data.success) {
+                toast.success("Signed up successfully!");
+                setActiveForm('login');
+            } else {
+                toast.error("Signup failed. Please try again.");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error("An error occurred. Please try again later.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
     const handleChange = (e) => {
         const { name, value } = e.target;
         setSignupData({

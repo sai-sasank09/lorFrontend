@@ -33,7 +33,7 @@ const App = () => {
         {/* file upload route */}
         <Route path='/staff/upload' element={<FileUploadPage />} />
         {/* file upload route */}
-        <Route path='/staff/studentRegno' element={<YesNoPage/>} />
+        <Route path="/respond/:registerNo/:profEmail" element={<YesNoPage />} />
 
         <Route path='/staff/documents' element={<DocumentList />} />
         {/* reset password */}
